@@ -1,0 +1,30 @@
+{
+  "name": "tizen-pull-up",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack --config webpack.config.js --mode development --watch",
+    "tizen:build": "tizen build-web && rm -rf ./.buildResult/node_modules ./.buildResult/src",
+    "tizen:package": "tizen package -t wgt -s Tizen -- ./.buildResult",
+    "tizen:install": "tizen install -n ./.buildResult/TAUBasic.wgt -t W-4.0-circle-x86-preview -- ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "style-loader": "^0.21.0",
+    "ts-loader": "^4.4.1",
+    "typescript": "^2.9.2",
+    "vue": "^2.5.16",
+    "vue-loader": "^15.2.4",
+    "vue-template-compiler": "^2.5.16",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.7"
+  }
+}
