@@ -1,31 +1,24 @@
 <template>
-    <div class="ui-page ui-page-active" id="main">
-        <div class="ui-content ui-content-padding">
-            {{count}}
-        </div>
+    <div>
+        <main-page/>
+        <workout-page/>
     </div>
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
+    import WorkoutPage from './workout-page.vue'
+    import MainPage from './main-page.vue'
+    import Vue from 'vue';
+    import { Component } from 'vue-property-decorator';
 
-    export default Vue.extend({
-        data() {
-            return {
-                count: 0,
-            };
-        },
-        created() {
-            document.addEventListener('rotarydetent', (e) => {
-                var direction = (e as any).detail.direction;
-
-                if (direction === 'CW') {
-                    this.count++;
-                } else if (direction === 'CCW') {
-                    this.count--;
-                }
-            });
-            
+    @Component({
+        components: {
+            MainPage,
+            WorkoutPage
+        }
+    })
+    export default class Root extends Vue {
+        public created() {
             window.addEventListener("tizenhwkey", function (ev) {
                 var activePopup = null,
                     page = null,
@@ -47,5 +40,5 @@
                 }
             });
         }
-    });
+    }
 </script>
