@@ -12,6 +12,7 @@
     "tizen:build": "tizen build-web && rm -rf ./.buildResult/node_modules ./.buildResult/src",
     "tizen:package": "tizen package -t wgt -s Tizen -- ./.buildResult",
     "tizen:install": "tizen install -n ./.buildResult/TAUBasic.wgt -t W-4.0-circle-x86-preview -- ./",
+    "tizen:run": "node scripts/run --appName TAUBasic",
     "tizen:debug": "node scripts/run --appName TAUBasic --mode debug --localPort 9222",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
