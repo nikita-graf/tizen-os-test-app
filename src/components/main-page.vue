@@ -15,7 +15,7 @@
     @Component
     export default class MainPage extends Vue {
         private navigate(route: string) {
-            tau.changePage(route, { transition: 'slide' });
+            tau.engine.getRouter().open(route);
         }
     }
 </script>

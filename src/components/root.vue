@@ -18,7 +18,11 @@
         }
     })
     export default class Root extends Vue {
-        public created() {
+        public mounted () {
+            tau.engine.getRouter().init();
+        }
+
+        public created () {
             window.addEventListener("tizenhwkey", function (ev) {
                 var activePopup = null,
                     page = null,

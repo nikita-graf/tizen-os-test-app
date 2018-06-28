@@ -5,6 +5,9 @@
             <p>{{ reps }}</p>
              <input ref="sliderElement" type="range" min="0" max="50" @change="handleSliderChange"/>
         </div>
+        <footer class="ui-footer ui-bottom-button ui-fixed">
+		    <button class="ui-btn" @click="handleSave">Save</button>
+	    </footer>
     </div>
 </template>
 
@@ -22,6 +25,11 @@
             if (e.target) {
                 this.reps = Number((e.target as HTMLInputElement).value);
             }
+        }
+
+        private handleSave () {
+            this.reps = 0;
+            tau.engine.getRouter().open('main');
         }
 
         public mounted() {
