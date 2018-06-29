@@ -3,7 +3,7 @@
         <div class="ui-content">
             <p>Reps</p>
             <p>{{ reps }}</p>
-             <input ref="sliderElement" type="range" min="0" max="50" @change="handleSliderChange"/>
+            <progress ref="progress" class="ui-circle-progress" id="circleprogress" max="50" value="0"></progress>
         </div>
         <footer class="ui-footer ui-bottom-button ui-fixed">
 		    <button class="ui-btn" @click="handleSave">Save</button>
@@ -33,14 +33,12 @@
         }
 
         public mounted() {
-            this.slider = new tau.widget.Slider(this.$refs.sliderElement, {
-                type: "circle",
-                step: 1
+            const progressBarWidget = new tau.widget.CircleProgressBar(this.$refs.progress, { size: "full" });
+            document.addEventListener('rotarydetent', (e: any) => {
+                const step = e.detail.direction === "CW" ? 1 : -1;
+                this.reps += step;
+                progressBarWidget.value(this.reps);
             });
-            this.slider._onRotary = function (event: any) {
-				this.value(this.value() + (event.detail.direction === "CW" ? this._step : -this._step));
-			};
-            this.slider.value(this.reps);
         }
     }
 </script>
