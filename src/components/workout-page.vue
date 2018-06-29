@@ -3,7 +3,7 @@
         <div class="ui-content">
             <p>Reps</p>
             <p>{{ reps }}</p>
-            <progress ref="progress" class="ui-circle-progress" id="circleprogress" max="50" value="0"></progress>
+            <progress ref="progress" class="ui-circle-progress" id="circleprogress" :min="minReps" :max="maxReps" :value="reps"></progress>
         </div>
         <footer class="ui-footer ui-bottom-button ui-fixed">
 		    <button class="ui-btn" @click="handleSave">Save</button>
@@ -17,7 +17,11 @@
 
     @Component
     export default class WorkoutPage extends Vue {
-        private slider: any;
+        private progressBar?: any;
+
+        private minReps = 0;
+
+        private maxReps = 50;
 
         @Provide() reps = 0;
     
@@ -33,12 +37,28 @@
         }
 
         public mounted() {
-            const progressBarWidget = new tau.widget.CircleProgressBar(this.$refs.progress, { size: "full" });
-            document.addEventListener('rotarydetent', (e: any) => {
-                const step = e.detail.direction === "CW" ? 1 : -1;
-                this.reps += step;
-                progressBarWidget.value(this.reps);
+            this.$el.addEventListener('pageshow', () => {
+                this.progressBar = new tau.widget.CircleProgressBar(this.$refs.progress, { size: "full" });
+                document.addEventListener('rotarydetent', this.handleBezelRotate);
             });
+            this.$el.addEventListener('pagehide', () => {
+                if (this.progressBar) {
+                    this.progressBar.destroy();
+                }
+                document.removeEventListener('rotarydetent', this.handleBezelRotate);
+            });
+        }
+
+        private handleBezelRotate (e: any) {
+            const step = e.detail.direction === "CW" ? 1 : -1;
+            this.reps = this.normalizeReps(this.reps + step);
+            if (this.progressBar) {
+                this.progressBar.value(this.reps);
+            }
+        }
+
+        private normalizeReps (reps: number) {
+            return Math.min(Math.max(reps, this.minReps), this.maxReps);
         }
     }
 </script>
