@@ -1,12 +1,14 @@
 <template>
     <div class="ui-page" data-role="page" id="workout">
         <div class="ui-content">
+            <p>Set</p>
+            <p>{{ currentSetText }}</p>
             <p>Reps</p>
             <p>{{ reps }}</p>
             <progress ref="progress" class="ui-circle-progress" id="circleprogress" :min="minReps" :max="maxReps" :value="reps"></progress>
         </div>
         <footer class="ui-footer ui-bottom-button ui-fixed">
-		    <button class="ui-btn" @click="handleSave">Save</button>
+		    <button class="ui-btn" @click="handleSave">Complete {{ currentSetText }} set</button>
 	    </footer>
     </div>
 </template>
@@ -17,13 +19,19 @@
 
     @Component
     export default class WorkoutPage extends Vue {
+        private readonly minReps = 0;
+
+        private readonly maxReps = 50;
+
         private progressBar?: any;
 
-        private minReps = 0;
+        private reps = 0;
 
-        private maxReps = 50;
+        private sets: number[] = [];
 
-        @Provide() reps = 0;
+        private get currentSetText () {
+            return this.sets.length + 1;
+        }
     
         private handleSliderChange (e: Event) {
             if (e.target) {
@@ -32,8 +40,8 @@
         }
 
         private handleSave () {
+            this.sets.push(this.reps);
             this.reps = 0;
-            tau.engine.getRouter().open('main');
         }
 
         public mounted() {
